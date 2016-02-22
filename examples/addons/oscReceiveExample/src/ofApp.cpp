@@ -40,7 +40,9 @@ void ofApp::update(){
 		// check for mouse button message
 		else if(m.getAddress() == "/mouse/button"){
 			// the single argument is a string
-			mouseButtonState = m.getArgAsString(0);
+			mouseButtonState = ofToString( m.getArgAsInt32(0) + " ");
+			mouseButtonState += m.getArgAsString(1);
+			cout <<  "mouseButtonState " << mouseButtonState << endl;
 		}
         // check for an image being sent (note: the size of the image depends greatly on your network buffer sizes - if an image is too big the message won't come through ) 
         else if(m.getAddress() == "/image" ){

@@ -4,7 +4,6 @@ ofxOpenCv
 ofxOsc
 ofxVectorGraphics
 ofxXmlSettings
-ofxAssimpModelLoader
 ofxThreadedImageLoader
 ofxGui
 ofxKinect
