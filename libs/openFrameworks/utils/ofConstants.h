@@ -1,6 +1,12 @@
 #pragma once
 #include <stdint.h>
 
+//*******************************
+//******   My Macros   **********
+//*******************************
+#define TARGET_NO_SOUND
+//*******************************
+
 //-------------------------------
 #define OF_VERSION_MAJOR 0
 #define OF_VERSION_MINOR 9
