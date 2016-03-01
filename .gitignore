@@ -132,4 +132,6 @@ Desktop.ini
 # my ignores:
 #########################
 media/
+myTests/
+myNotes/
 examples/
