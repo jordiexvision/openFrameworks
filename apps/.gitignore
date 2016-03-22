@@ -3,8 +3,8 @@
 #########################
 
 # include official directories
-!projectGenerator/
-!devApps/
+projectGenerator/
+devApps/
 
 # ignore bin folders' contents, except data folder therein
 /devApps/*/bin/*
