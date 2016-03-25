@@ -1,0 +1,4 @@
+[submodule "addons/ofxImGui"]
+	path = addons/ofxImGui
+[submodule "addons/ofxImGui"]
+	url = https://github.com/jvcleave/ofxImGui.git
