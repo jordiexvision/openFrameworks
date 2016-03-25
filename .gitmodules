@@ -6,3 +6,7 @@
 	path = addons/ofxAsio
 [submodule "addons/ofxAsio"]
 	url = https://github.com/elliotwoods/ofxAsio.git
+[submodule "addons/ofxSquash"]
+	path = addons/ofxSquash
+[submodule "addons/ofxSquash"]
+	url = https://github.com/elliotwoods/ofxSquash.git
