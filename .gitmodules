@@ -2,3 +2,7 @@
 	path = addons/ofxImGui
 [submodule "addons/ofxImGui"]
 	url = https://github.com/jvcleave/ofxImGui.git
+[submodule "addons/ofxAsio"]
+	path = addons/ofxAsio
+[submodule "addons/ofxAsio"]
+	url = https://github.com/elliotwoods/ofxAsio.git
