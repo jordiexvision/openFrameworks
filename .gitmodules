@@ -18,3 +18,7 @@
 	path = addons/ofxAddonLib
 [submodule "addons/ofxAddonLib"]
 	url = https://github.com/elliotwoods/ofxAddonLib.git
+[submodule "addons/ofxCv"]
+	path = addons/ofxCv
+[submodule "addons/ofxCv"]
+	url = https://github.com/kylemcdonald/ofxCv.git
