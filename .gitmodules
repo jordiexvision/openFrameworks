@@ -14,3 +14,7 @@
 	path = addons/ofxSquashBuddies
 [submodule "addons/ofxSquashBuddies"]
 	url = https://github.com/elliotwoods/ofxSquashBuddies.git
+[submodule "addons/ofxAddonLib"]
+	path = addons/ofxAddonLib
+[submodule "addons/ofxAddonLib"]
+	url = https://github.com/elliotwoods/ofxAddonLib.git
