@@ -3,7 +3,7 @@
 #include "ofGLUtils.h"
 #include "ofGLProgrammableRenderer.h"
 #include "of3dGraphics.h"
-#include "ofSoundBuffer.h"
+//#include "ofSoundBuffer.h"
 
 //---------------------------------------------------------------------------
 ofBaseVideoGrabber::~ofBaseVideoGrabber(){
@@ -327,7 +327,7 @@ void ofBaseMaterial::uploadMatrices(const ofShader & shader,ofGLProgrammableRend
 	shader.setUniformMatrix4f("normalMatrix",normalMatrix);
 }
 
-
+/*
 void ofBaseSoundInput::audioIn( ofSoundBuffer& buffer ){
 	audioIn(&buffer[0], buffer.getNumFrames(), buffer.getNumChannels(), buffer.getDeviceID(), buffer.getTickCount());
 }
@@ -352,3 +352,4 @@ void ofBaseSoundOutput::audioOut( float * output, int bufferSize, int nChannels,
 void ofBaseSoundOutput::audioOut( float * output, int bufferSize, int nChannels ){
 	audioRequested(output, bufferSize, nChannels);
 }
+*/

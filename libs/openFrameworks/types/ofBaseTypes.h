@@ -285,7 +285,7 @@ typedef ofBaseImage_<float> ofBaseFloatImage;
 typedef ofBaseImage_<unsigned short> ofBaseShortImage;
 
 
-
+/*
 /// \brief A base class representing a sound input stream.
 class ofBaseSoundInput{
 	public:
@@ -332,7 +332,7 @@ class ofBaseSoundOutput{
 		/// Use void audioOut(ofSoundBuffer& buffer) instead.
 		virtual void audioRequested( float * output, int bufferSize, int nChannels ){}
 };
-
+*/
 
 /// \brief A base class representing a video source.
 class ofBaseVideo: virtual public ofBaseHasPixels, public ofBaseUpdates{
