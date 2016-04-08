@@ -1,24 +1,24 @@
 [submodule "addons/ofxImGui"]
 	path = addons/ofxImGui
 [submodule "addons/ofxImGui"]
-	url = https://github.com/jvcleave/ofxImGui.git
+	url = https://github.com/jordiexvision/ofxImGui.git
 [submodule "addons/ofxAsio"]
 	path = addons/ofxAsio
 [submodule "addons/ofxAsio"]
-	url = https://github.com/elliotwoods/ofxAsio.git
+	url = https://github.com/jordiexvision/ofxAsio.git
 [submodule "addons/ofxSquash"]
 	path = addons/ofxSquash
 [submodule "addons/ofxSquash"]
-	url = https://github.com/elliotwoods/ofxSquash.git
+	url = https://github.com/jordiexvision/ofxSquash.git
 [submodule "addons/ofxSquashBuddies"]
 	path = addons/ofxSquashBuddies
 [submodule "addons/ofxSquashBuddies"]
-	url = https://github.com/elliotwoods/ofxSquashBuddies.git
+	url = https://github.com/jordiexvision/ofxSquashBuddies.git
 [submodule "addons/ofxAddonLib"]
 	path = addons/ofxAddonLib
 [submodule "addons/ofxAddonLib"]
-	url = https://github.com/elliotwoods/ofxAddonLib.git
+	url = https://github.com/jordiexvision/ofxAddonLib.git
 [submodule "addons/ofxCv"]
 	path = addons/ofxCv
 [submodule "addons/ofxCv"]
-	url = https://github.com/kylemcdonald/ofxCv.git
+	url = https://github.com/jordiexvision/ofxCv.git
