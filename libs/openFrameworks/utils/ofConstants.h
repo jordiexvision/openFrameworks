@@ -11,7 +11,7 @@
 //-------------------------------
 #define OF_VERSION_MAJOR 0
 #define OF_VERSION_MINOR 9
-#define OF_VERSION_PATCH 2
+#define OF_VERSION_PATCH 3
 #define OF_VERSION_PRE_RELEASE "stable"
 
 //-------------------------------
@@ -347,7 +347,7 @@ typedef TESSindex ofIndexType;
   	#define OF_SOUND_PLAYER_OPENAL
   #elif defined(TARGET_EMSCRIPTEN)
 	#define OF_SOUND_PLAYER_EMSCRIPTEN
-  #elif !defined(TARGET_ANDROID)
+  #elif !defined(TARGET_ANDROID) && (!defined(USE_FMOD) || USE_FMOD)
   	#define OF_SOUND_PLAYER_FMOD
   #endif
 #endif
