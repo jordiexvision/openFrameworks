@@ -22,3 +22,6 @@
 	path = addons/ofxCv
 [submodule "addons/ofxCv"]
 	url = https://github.com/jordiexvision/ofxCv.git
+[submodule "addons/ofxImGuiParameter"]
+	path = addons/ofxImGuiParameter
+	url = https://github.com/jordiexvision/ofxImGuiParameter.git
