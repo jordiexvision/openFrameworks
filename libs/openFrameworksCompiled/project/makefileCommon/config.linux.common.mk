@@ -316,7 +316,6 @@ ifneq ($(PLATFORM_ARCH),armv6l)
 endif
     
 PLATFORM_LIBRARIES += freeimage
-PLATFORM_LIBRARIES += rtaudio
 PLATFORM_LIBRARIES += boost_filesystem
 PLATFORM_LIBRARIES += boost_system
 
@@ -354,11 +353,13 @@ PLATFORM_PKG_CONFIG_LIBRARIES += openssl
 
 ifeq "$(shell pkg-config --exists glfw3 && echo 1)" "1"
     PLATFORM_PKG_CONFIG_LIBRARIES += glfw3
-    PLATFORM_LIBRARIES += Xinerama 
+    PLATFORM_LIBRARIES += Xinerama
 endif
 
 ifeq "$(shell pkg-config --exists rtaudio && echo 1)" "1"
-	PLATFORM_PKG_CONFIG_LIBRARIES += rtaudio
+    PLATFORM_PKG_CONFIG_LIBRARIES += rtaudio
+else    
+    PLATFORM_LIBRARIES += rtaudio
 endif
 
 

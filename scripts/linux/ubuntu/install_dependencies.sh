@@ -131,14 +131,7 @@ then
 	fi
 fi
 
-#check if glfw3 exists
-apt-cache show libglfw3-dev
-exit_code=$?
-if [ $exit_code = 0 ]; then
-    GLFW_PKG=libglfw3-dev
-else
-    echo installing glfw from source
-    GLFW_VER=32f38b97d544eb2fd9a568e94e37830106417b51
+PACKAGES="curl libjack-jackd2-0 libjack-jackd2-dev freeglut3-dev libasound2-dev libxmu-dev libxxf86vm-dev g++${CXX_VER} libgl1-mesa-dev${XTAG} libglu1-mesa-dev libraw1394-dev libudev-dev libdrm-dev libglew-dev libopenal-dev libsndfile-dev libfreeimage-dev libcairo2-dev libfreetype6-dev libssl-dev libpulse-dev libusb-1.0-0-dev libgtk${GTK_VERSION}-dev  libopencv-dev libassimp-dev librtaudio-dev libboost-filesystem${BOOST_VER}-dev libgstreamer${GSTREAMER_VERSION}-dev libgstreamer-plugins-base${GSTREAMER_VERSION}-dev  ${GSTREAMER_FFMPEG} gstreamer${GSTREAMER_VERSION}-pulseaudio gstreamer${GSTREAMER_VERSION}-x gstreamer${GSTREAMER_VERSION}-plugins-bad gstreamer${GSTREAMER_VERSION}-alsa gstreamer${GSTREAMER_VERSION}-plugins-base gstreamer${GSTREAMER_VERSION}-plugins-good premake4"
 
     # tools for git use
     GLFW_GIT_TAG=$GLFW_VER
@@ -192,6 +185,7 @@ fi
 
 export LC_ALL=C
 GCC_MAJOR_GT_4=$(expr `gcc -dumpversion | cut -f1 -d.` \> 4)
+GCC_MAJOR_GT_5=$(expr `gcc -dumpversion | cut -f1 -d.` \> 5)
 if [ $GCC_MAJOR_GT_4 -eq 1 ]; then
     echo
     echo
@@ -209,8 +203,20 @@ if [ $GCC_MAJOR_GT_4 -eq 1 ]; then
     DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
     cd ${DIR}/../../apothecary
     ./apothecary -j${cores} update poco
-    WHO=`who am i`;ID=`echo ${WHO%% *}`
+    if [ $GCC_MAJOR_GT_5 -eq 1 ]; then
+        ./apothecary -j${cores} update kiss
+        ./apothecary -j${cores} update tess2
+    fi
+
+    ID=`logname`
     GROUP_ID=`id --group -n ${ID}`
     chown -R $ID:$GROUP_ID build/poco
     chown -R $ID:$GROUP_ID ../../libs/poco
+    if [ $GCC_MAJOR_GT_5 -eq 1 ]; then
+        chown -R $ID:$GROUP_ID build/kiss
+        chown -R $ID:$GROUP_ID ../../libs/kiss
+        chown -R $ID:$GROUP_ID build/tess2
+        chown -R $ID:$GROUP_ID ../../libs/tess2
+    fi
 fi
+
