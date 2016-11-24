@@ -335,9 +335,6 @@ public:
 	static size_t pixelBitsFromPixelFormat(ofPixelFormat format);
 	static size_t bytesFromPixelFormat(size_t w, size_t h, ofPixelFormat format);
 
-    static int pixelBitsFromPixelFormat(ofPixelFormat format);
-    static int bytesFromPixelFormat(int w, int h, ofPixelFormat format);
-
 	/// \}
 	/// \name Iterator
 	/// \{
