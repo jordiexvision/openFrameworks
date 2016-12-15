@@ -2,26 +2,6 @@
 	path = addons/ofxImGui
 [submodule "addons/ofxImGui"]
 	url = https://github.com/jordiexvision/ofxImGui.git
-[submodule "addons/ofxAsio"]
-	path = addons/ofxAsio
-[submodule "addons/ofxAsio"]
-	url = https://github.com/jordiexvision/ofxAsio.git
-[submodule "addons/ofxSquash"]
-	path = addons/ofxSquash
-[submodule "addons/ofxSquash"]
-	url = https://github.com/jordiexvision/ofxSquash.git
-[submodule "addons/ofxSquashBuddies"]
-	path = addons/ofxSquashBuddies
-[submodule "addons/ofxSquashBuddies"]
-	url = https://github.com/jordiexvision/ofxSquashBuddies.git
-[submodule "addons/ofxAddonLib"]
-	path = addons/ofxAddonLib
-[submodule "addons/ofxAddonLib"]
-	url = https://github.com/jordiexvision/ofxAddonLib.git
-[submodule "addons/ofxCv"]
-	path = addons/ofxCv
-[submodule "addons/ofxCv"]
-	url = https://github.com/jordiexvision/ofxCv.git
 [submodule "addons/ofxImGuiParameter"]
 	path = addons/ofxImGuiParameter
 	url = https://github.com/jordiexvision/ofxImGuiParameter.git
