@@ -14,6 +14,10 @@
 #define OF_VERSION_PATCH 6
 #define OF_VERSION_PRE_RELEASE "stable"
 
+#define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES 1
+#define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES_COUNT 1
+#define _CRT_SECURE_CPP_OVERLOAD_SECURE_NAMES 1
+
 //-------------------------------
 
 /// \brief Used to represent the available video looping modes.
