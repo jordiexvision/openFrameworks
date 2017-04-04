@@ -5,3 +5,12 @@
 [submodule "addons/ofxImGuiParameter"]
 	path = addons/ofxImGuiParameter
 	url = https://github.com/jordiexvision/ofxImGuiParameter.git
+[submodule "addons/ofxSingleton"]
+	path = addons/ofxSingleton
+	url = https://github.com/jordiexvision/ofxSingleton.git
+[submodule "addons/ofxPlugin"]
+	path = addons/ofxPlugin
+	url = https://github.com/jordiexvision/ofxPlugin.git
+[submodule "addons/ofxAddonLib"]
+	path = addons/ofxAddonLib
+	url = https://github.com/jordiexvision/ofxAddonLib.git
