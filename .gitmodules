@@ -14,3 +14,6 @@
 [submodule "addons/ofxAddonLib"]
 	path = addons/ofxAddonLib
 	url = https://github.com/jordiexvision/ofxAddonLib.git
+[submodule "addons/ofxMachineVision"]
+	path = addons/ofxMachineVision
+	url = https://github.com/jordiexvision/ofxMachineVision.git
