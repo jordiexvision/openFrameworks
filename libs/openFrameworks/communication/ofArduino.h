@@ -59,7 +59,7 @@
 #define FIRMATA_ANALOG                                0x02 // analog pin in analogInput mode
 #define FIRMATA_PWM                                  0x03 // digital pin in PWM output mode
 #define FIRMATA_SERVO                                  0x04 // digital pin in Servo output mode
-#define SHIFT                                           0x05 // shiftIn/shiftOut mode
+//#define SHIFT                                           0x05 // shiftIn/shiftOut mode
 #define I2C                                             0x06 // pin included in I2C setup
 #define TOTAL_PIN_MODES 7
 // extended command set using SysEx (0-127/0x00-0x7F)
