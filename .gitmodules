@@ -15,4 +15,5 @@
 	path = addons/ofxAddonLib
 	url = https://github.com/jordiexvision/ofxAddonLib.git
 [submodule "addons/ofxQt"]
+	path = addons/ofxQt
 	url = https://github.com/jordiexvision/ofxQt.git
