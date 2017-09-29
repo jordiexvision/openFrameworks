@@ -6,8 +6,6 @@
 openFrameworks.a
 openFrameworksDebug.a
 openFrameworksUniversal.a
-libs/openFrameworksCompiled/lib/*/*
-!libs/openFrameworksCompiled/lib/*/.gitkeep
 
 # apothecary
 scripts/apothecary
@@ -24,6 +22,8 @@ apps/*
 /libs/*
 !/libs/openFrameworks
 !/libs/openFrameworksCompiled
+libs/openFrameworksCompiled/lib/*/*
+!libs/openFrameworksCompiled/lib/*/.gitkeep
 
 # also, see examples/.gitignore
 
