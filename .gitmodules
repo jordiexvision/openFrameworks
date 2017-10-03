@@ -4,3 +4,12 @@
 [submodule "scripts/apothecary"]
 	path = scripts/apothecary
 	url = https://github.com/openframeworks/apothecary
+[submodule "addons/ofxQt"]
+	path = addons/ofxQt
+	url = https://github.com/jordiexvision/ofxQt.git
+[submodule "addons/ofxImGui"]
+	path = addons/ofxImGui
+	url = https://github.com/jordiexvision/ofxImGui.git
+[submodule "addons/ofxImGuiParameter"]
+	path = addons/ofxImGuiParameter
+	url = https://github.com/jordiexvision/ofxImGuiParameter.git
