@@ -7,7 +7,9 @@
 #define TARGET_NO_SOUND 
 //#define NO_WINDOW 
 //******************************* 
- 
+
+// std namespace will be applied to all files including openframeworks
+using namespace std;
 
 //-------------------------------
 #define OF_VERSION_MAJOR 0
