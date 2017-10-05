@@ -28,6 +28,17 @@ public:
 		ofAddListener(window->events().keyPressed,this,&ofMainLoop::keyPressed);
 	}
 
+	template<typename Window>
+	void removeWindow(std::shared_ptr<Window> window) {
+		ofRemoveListener(window->events().keyPressed, this, &ofMainLoop::keyPressed);
+
+		windowsApps.erase(window);
+		for (auto i : windowsApps) {
+			currentWindow = i.first;
+			break;
+		}
+	}
+
 	void run(std::shared_ptr<ofAppBaseWindow> window, std::shared_ptr<ofBaseApp> && app);
 	void run(std::shared_ptr<ofBaseApp> && app);
 	int loop();
