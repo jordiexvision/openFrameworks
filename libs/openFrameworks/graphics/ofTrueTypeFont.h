@@ -1,11 +1,12 @@
 #pragma once
 
-#include <vector>
-#include "ofRectangle.h"
 #include "ofConstants.h"
+#include <unordered_map>
+#include "ofRectangle.h"
 #include "ofPath.h"
 #include "ofTexture.h"
 #include "ofMesh.h"
+#include "ofPixels.h"
 
 /// \file
 /// The ofTrueTypeFont class provides an interface to load fonts into
@@ -24,7 +25,6 @@
 /// \cond INTERNAL
 
 
-typedef ofPath ofTTFCharacter;
 typedef struct FT_FaceRec_*  FT_Face;
 
 /// \endcond
@@ -339,8 +339,8 @@ public:
 	void drawStringAsShapes(const std::string& s, float x, float y) const;
 	
 	/// \todo
-	ofTTFCharacter getCharacterAsPoints(uint32_t character, bool vflip=true, bool filled=true) const;
-	std::vector<ofTTFCharacter> getStringAsPoints(const std::string &  str, bool vflip=true, bool filled=true) const;
+	ofPath getCharacterAsPoints(uint32_t character, bool vflip=true, bool filled=true) const;
+	std::vector<ofPath> getStringAsPoints(const std::string &  str, bool vflip=true, bool filled=true) const;
 	const ofMesh & getStringMesh(const std::string &  s, float x, float y, bool vflip=true) const;
 	const ofTexture & getFontTexture() const;
 	ofTexture getStringTexture(const std::string &  s, bool vflip=true) const;
@@ -354,10 +354,10 @@ protected:
 	
 	bool bLoadedOk;
 	
-	std::vector <ofTTFCharacter> charOutlines;
-	std::vector <ofTTFCharacter> charOutlinesNonVFlipped;
-	std::vector <ofTTFCharacter> charOutlinesContour;
-	std::vector <ofTTFCharacter> charOutlinesNonVFlippedContour;
+	std::vector <ofPath> charOutlines;
+	std::vector <ofPath> charOutlinesNonVFlipped;
+	std::vector <ofPath> charOutlinesContour;
+	std::vector <ofPath> charOutlinesNonVFlippedContour;
 
 	float lineHeight;
 	float ascenderHeight;
@@ -387,7 +387,7 @@ protected:
 
 	std::vector<glyphProps> cps; // properties for each character
 
-  Settings settings;
+	Settings settings;
 	std::unordered_map<uint32_t,size_t> glyphIndexMap;
 
 

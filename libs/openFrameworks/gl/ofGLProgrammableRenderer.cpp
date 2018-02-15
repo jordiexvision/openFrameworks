@@ -13,10 +13,12 @@
 #include "ofCamera.h"
 #include "ofTrueTypeFont.h"
 #include "ofNode.h"
+#include "ofVideoBaseTypes.h"
 
 using namespace std;
 
 
+static const string MODEL_MATRIX_UNIFORM="modelMatrix";
 static const string VIEW_MATRIX_UNIFORM="viewMatrix";
 static const string MODELVIEW_MATRIX_UNIFORM="modelViewMatrix";
 static const string PROJECTION_MATRIX_UNIFORM="projectionMatrix";
@@ -785,6 +787,7 @@ void ofGLProgrammableRenderer::uploadCurrentMatrix(){
 	// uploads the current matrix to the current shader.
 	switch(matrixStack.getCurrentMatrixMode()){
 	case OF_MATRIX_MODELVIEW:
+		currentShader->setUniformMatrix4f(MODEL_MATRIX_UNIFORM, matrixStack.getModelMatrix());
 		currentShader->setUniformMatrix4f(VIEW_MATRIX_UNIFORM, matrixStack.getViewMatrix());
 		currentShader->setUniformMatrix4f(MODELVIEW_MATRIX_UNIFORM, matrixStack.getModelViewMatrix());
 		currentShader->setUniformMatrix4f(MODELVIEW_PROJECTION_MATRIX_UNIFORM, matrixStack.getModelViewProjectionMatrix());
@@ -1493,6 +1496,8 @@ void ofGLProgrammableRenderer::unbind(const ofCamera & camera){
 //----------------------------------------------------------
 void ofGLProgrammableRenderer::uploadMatrices(){
 	if(!currentShader) return;
+	currentShader->setUniformMatrix4f(MODEL_MATRIX_UNIFORM, matrixStack.getModelMatrix());
+	currentShader->setUniformMatrix4f(VIEW_MATRIX_UNIFORM, matrixStack.getViewMatrix());
 	currentShader->setUniformMatrix4f(MODELVIEW_MATRIX_UNIFORM, matrixStack.getModelViewMatrix());
 	currentShader->setUniformMatrix4f(PROJECTION_MATRIX_UNIFORM, matrixStack.getProjectionMatrix());
 	currentShader->setUniformMatrix4f(TEXTURE_MATRIX_UNIFORM, matrixStack.getTextureMatrix());
@@ -2647,28 +2652,34 @@ void ofGLProgrammableRenderer::saveFullViewport(ofPixels & pixels){
 }
 
 void ofGLProgrammableRenderer::saveScreen(int x, int y, int w, int h, ofPixels & pixels){
-
     int sh = getViewportHeight();
 
 
-	#ifndef TARGET_OPENGLES
-	ofBufferObject buffer;
-	pixels.allocate(w, h, OF_PIXELS_RGB);
-	buffer.allocate(pixels.size(),GL_STATIC_READ);
+    #ifndef TARGET_OPENGLES
 	if(isVFlipped()){
 		y = sh - y;
 		y -= h; // top, bottom issues
 	}
+	auto pixelFormat = OF_PIXELS_BGRA;
+	pixels.allocate(w, h, pixelFormat);
+	auto glFormat = ofGetGlFormat(pixels);
+
+
+	ofBufferObject buffer;
+	buffer.allocate(pixels.size(), GL_STATIC_READ);
 
 	buffer.bind(GL_PIXEL_PACK_BUFFER);
-	glReadPixels(x, y, w, h, ofGetGlFormat(pixels), GL_UNSIGNED_BYTE, 0); // read the memory....
+	glReadPixels(x, y, w, h, glFormat, GL_UNSIGNED_BYTE, 0); // read the memory....
 	buffer.unbind(GL_PIXEL_PACK_BUFFER);
-	unsigned char * p = buffer.map<unsigned char>(GL_READ_ONLY);
-	ofPixels src;
-	src.setFromExternalPixels(p,w,h,OF_PIXELS_RGB);
-	src.mirrorTo(pixels,true,false);
-	buffer.unmap();
 
+	if(unsigned char * p = buffer.map<unsigned char>(GL_READ_ONLY)){
+		ofPixels src;
+		src.setFromExternalPixels(p,w,h,pixelFormat);
+		src.mirrorTo(pixels,true,false);
+		buffer.unmap();
+	}else{
+		ofLogError("ofGLProgrammableRenderer") << "Error saving screen";
+	}
 
 	#else
 
