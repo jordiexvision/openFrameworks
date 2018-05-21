@@ -71,6 +71,8 @@ ofAppGLFWWindow::~ofAppGLFWWindow(){
 
 void ofAppGLFWWindow::close(){
 	if(windowP){
+		
+
 		glfwSetMouseButtonCallback( windowP, nullptr );
 		glfwSetCursorPosCallback( windowP, nullptr );
 		glfwSetCursorEnterCallback( windowP, nullptr );
@@ -84,6 +86,12 @@ void ofAppGLFWWindow::close(){
 #endif
 		//hide the window before we destroy it stops a flicker on OS X on exit.
 		glfwHideWindow(windowP);
+
+		// We must ensure renderer is destroyed *before* glfw destroys the window in glfwDestroyWindow, 
+		// as `glfwDestroyWindow` at least on Windows has the effect of unloading OpenGL, making all 
+		// calls to OpenGL illegal.
+		currentRenderer.reset();
+
 		glfwDestroyWindow(windowP);
 		windowP = nullptr;
 		events().disable();
@@ -205,17 +213,16 @@ void ofAppGLFWWindow::setup(const ofGLFWWindowSettings & _settings){
 	if(settings.windowMode==OF_GAME_MODE){
 		int count;
 		GLFWmonitor** monitors = glfwGetMonitors(&count);
-		int width, height;
 		if(settings.isSizeSet()){
-			width = settings.getWidth();
-			height = settings.getHeight();
+			currentW = settings.getWidth();
+			currentH = settings.getHeight();
 		}else{
 			auto mode = glfwGetVideoMode(monitors[settings.monitor]);
-			width = mode->width;
-			height = mode->height;
+			currentW = mode->width;
+			currentH = mode->height;
 		}
 		if(count>settings.monitor){
-			windowP = glfwCreateWindow(width, height, settings.title.c_str(), monitors[settings.monitor], sharedContext);
+			windowP = glfwCreateWindow(currentW, currentH, settings.title.c_str(), monitors[settings.monitor], sharedContext);
 		}else{
 			ofLogError("ofAppGLFWWindow") << "couldn't find any monitors";
 			return;
@@ -227,9 +234,12 @@ void ofAppGLFWWindow::setup(const ofGLFWWindowSettings & _settings){
 			return;
 		}
 		if(settings.windowMode==OF_FULLSCREEN){
+			int count = 0;
+			auto monitors = glfwGetMonitors(&count);
+			auto mode = glfwGetVideoMode(monitors[settings.monitor]);
+			currentW = mode->width;
+			currentH = mode->height;
 			if(!settings.isPositionSet()){
-				int count = 0;
-				auto monitors = glfwGetMonitors(&count);
 				if(count > 0){
 					int x = 0, y = 0;
 					settings.monitor = ofClamp(settings.monitor,0,count-1);
@@ -258,6 +268,7 @@ void ofAppGLFWWindow::setup(const ofGLFWWindowSettings & _settings){
 			if (settings.isPositionSet()) {
 				setWindowPosition(settings.getPosition().x,settings.getPosition().y);
 			}
+			glfwGetWindowSize( windowP, &currentW, &currentH );
 		}
 		#ifdef TARGET_LINUX
 			if(!iconSet){
@@ -284,22 +295,25 @@ void ofAppGLFWWindow::setup(const ofGLFWWindowSettings & _settings){
 
 	windowW = settings.getWidth();
 	windowH = settings.getHeight();
-	glfwGetWindowSize( windowP, &windowW, &windowH );
 
     glfwMakeContextCurrent(windowP);
 
-	glfwGetWindowSize(windowP, &currentW, &currentH );
-
     int framebufferW, framebufferH;
     glfwGetFramebufferSize(windowP, &framebufferW, &framebufferH);
-    
+    glfwGetWindowSize( windowP, &currentW, &currentH );
+
     //this lets us detect if the window is running in a retina mode
-    if( framebufferW != windowW ){
+	if( framebufferW != currentW){
         pixelScreenCoordScale = framebufferW / windowW;
-		
-		auto position = getWindowPosition();
-		setWindowShape(windowW, windowH);
-		setWindowPosition(position.x, position.y);
+		if( pixelScreenCoordScale < 1 ){
+            pixelScreenCoordScale = 1;
+        }
+        
+		if(targetWindowMode == OF_WINDOW){
+			auto position = getWindowPosition();
+			setWindowShape(windowW, windowH);
+			setWindowPosition(position.x, position.y);
+		}
 	}
 
 #ifndef TARGET_OPENGLES
@@ -1050,7 +1064,7 @@ unsigned long keycodeToUnicode(ofAppGLFWWindow * window, int scancode, int modif
 	XkbGetState(window->getX11Display(), XkbUseCoreKbd, &xkb_state);
 	XEvent ev = {0};
 	ev.xkey.keycode = scancode;
-	ev.xkey.state = xkb_state.mods & !ControlMask;
+	ev.xkey.state = xkb_state.mods & ~ControlMask;
 	ev.xkey.display = window->getX11Display();
 	ev.xkey.type = KeyPress;
 	KeySym keysym = NoSymbol;
@@ -1417,12 +1431,15 @@ void ofAppGLFWWindow::keyboard_cb(GLFWwindow* windowP_, int keycode, int scancod
 			break;
 		case GLFW_KEY_ENTER:
 			key = OF_KEY_RETURN;
+			codepoint = '\n';
 			break;
 		case GLFW_KEY_KP_ENTER:
 			key = OF_KEY_RETURN;
+			codepoint = '\n';
 			break;   
 		case GLFW_KEY_TAB:
 			key = OF_KEY_TAB;
+			codepoint = '\t';
 			break;   
 		case GLFW_KEY_KP_0:
 			key = codepoint = '0';

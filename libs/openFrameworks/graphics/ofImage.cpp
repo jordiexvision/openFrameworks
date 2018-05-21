@@ -182,22 +182,23 @@ static bool loadImage(ofPixels_<PixelType> & pix, const std::filesystem::path& _
 	ofInitFreeImage();
 
 	auto uriStr = _fileName.string();
-	const int bytesNeeded = 8 + 3 * strlen(uriStr.c_str()) + 1;
-	std::vector<char> absUri(bytesNeeded);
-
-#ifdef TARGET_WIN32
-	uriWindowsFilenameToUriStringA(uriStr.c_str(), absUri.data());
-#else
-	uriUnixFilenameToUriStringA(uriStr.c_str(), absUri.data());
-#endif
-
 	UriUriA uri;
 	UriParserStateA state;
 	state.uri = &uri;
-	if(uriParseUriA(&state, absUri.data())!=URI_SUCCESS){
-		ofLogError("ofImage") << "loadImage(): malformed uri when loading image from uri " << _fileName;
-		uriFreeUriMembersA(&uri);
-		return false;
+
+	if(uriParseUriA(&state, uriStr.c_str())!=URI_SUCCESS){
+		const int bytesNeeded = 8 + 3 * strlen(uriStr.c_str()) + 1;
+		std::vector<char> absUri(bytesNeeded);
+	#ifdef TARGET_WIN32
+		uriWindowsFilenameToUriStringA(uriStr.c_str(), absUri.data());
+	#else
+		uriUnixFilenameToUriStringA(uriStr.c_str(), absUri.data());
+	#endif
+		if(uriParseUriA(&state, absUri.data())!=URI_SUCCESS){
+			ofLogError("ofImage") << "loadImage(): malformed uri when loading image from uri " << _fileName;
+			uriFreeUriMembersA(&uri);
+			return false;
+		}
 	}
 	std::string scheme(uri.scheme.first, uri.scheme.afterLast);
 	uriFreeUriMembersA(&uri);
@@ -328,7 +329,7 @@ bool ofLoadImage(ofTexture & tex, const std::filesystem::path& path, const ofIma
 	ofPixels pixels;
 	bool loaded = ofLoadImage(pixels, path, settings);
 	if(loaded){
-		tex.allocate(pixels.getWidth(), pixels.getHeight(), ofGetGlInternalFormat(pixels));
+		tex.allocate(pixels.getWidth(), pixels.getHeight(), ofGetGLInternalFormat(pixels));
 		tex.loadData(pixels);
 	}
 	return loaded;
@@ -339,7 +340,7 @@ bool ofLoadImage(ofTexture & tex, const ofBuffer & buffer, const ofImageLoadSett
 	ofPixels pixels;
 	bool loaded = ofLoadImage(pixels, buffer, settings);
 	if(loaded){
-		tex.allocate(pixels.getWidth(), pixels.getHeight(), ofGetGlInternalFormat(pixels));
+		tex.allocate(pixels.getWidth(), pixels.getHeight(), ofGetGLInternalFormat(pixels));
 		tex.loadData(pixels);
 	}
 	return loaded;
@@ -365,8 +366,7 @@ static bool saveImage(const ofPixels_<PixelType> & _pix, const std::filesystem::
 	if(fif==FIF_JPEG && (_pix.getNumChannels()==4 || _pix.getBitsPerChannel() > 8)){
 		ofPixels pix3 = _pix;
 		pix3.setNumChannels(3);
-		saveImage(pix3,_fileName,qualityLevel);
-		return false;
+		return saveImage(pix3,_fileName,qualityLevel);
 	}
 
 	FIBITMAP * bmp = nullptr;
@@ -385,7 +385,7 @@ static bool saveImage(const ofPixels_<PixelType> & _pix, const std::filesystem::
 	}
 	#endif
 
-	bool retValue;
+	bool retValue = false;
 	if((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
 		if(fif == FIF_JPEG) {
 			int quality = JPEG_QUALITYSUPERB;
@@ -459,8 +459,7 @@ static bool saveImage(const ofPixels_<PixelType> & _pix, ofBuffer & buffer, ofIm
 	if(format==OF_IMAGE_FORMAT_JPEG && (_pix.getNumChannels()==4 || _pix.getBitsPerChannel() > 8)){
 		ofPixels pix3 = _pix;
 		pix3.setNumChannels(3);
-		saveImage(pix3,buffer,format,qualityLevel);
-		return false;
+		return saveImage(pix3,buffer,format,qualityLevel);
 	}
 
 
@@ -1032,7 +1031,7 @@ void ofImage_<PixelType>::update(){
 	bpp = pixels.getBitsPerPixel();
 	type = pixels.getImageType();
 	if (pixels.isAllocated() && bUseTexture){
-		int glInternalFormat = ofGetGlInternalFormat(pixels);
+		int glInternalFormat = ofGetGLInternalFormat(pixels);
 		if(!tex.isAllocated() || tex.getWidth() != width || tex.getHeight() != height || tex.getTextureData().glInternalFormat != glInternalFormat){
 			tex.allocate(pixels);
 		}else{
